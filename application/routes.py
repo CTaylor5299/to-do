@@ -62,22 +62,20 @@ def read():
         tasks_string += "<br>"+ task.name + " - " + task.description + " - " + task.completion
     return title_string + tasks_string
 
-
 @app.route('/completed')
 def completed():
     return render_template('completed.html', completed_tasks = Tasks.query.filter_by(completion="Yes"))
 
-
-@app.route('/incomplete/<task_name>')
-def incomplete(task_name):
-    incompleted_task = Tasks.query.filter_by(name=task_name).first()
+@app.route('/incomplete/<int:id>', methods=['GET', 'POST'])
+def incomplete(id):
+    incompleted_task = Tasks.query.filter_by(id=id).first()
     incompleted_task.completion = "No"
     db.session.commit()
-    return "The task is incomplete"
+    return redirect(url_for("home"))
 
-@app.route('/complete/<task_name>')
-def complete(task_name):
-    completed_task = Tasks.query.filter_by(name=task_name).first()
+@app.route('/complete/<int:id>', methods=['GET', 'POST'])
+def complete(id):
+    completed_task = Tasks.query.filter_by(id=id).first()
     completed_task.completion = "Yes"
     db.session.commit()
     return redirect(url_for("home"))

@@ -1,0 +1,11 @@
+[Unit]
+Description=Todo List
+
+[Service]
+User=jenkins
+Environment=DATABASE_URI="mysql+pymysql://root:root@35.234.148.224/todo"
+Environment=SECRET_KEY="123456789"
+ExecStart=/bin/bash /opt/todo/startup.sh
+
+[Install]
+WantedBy=multi-user.target
